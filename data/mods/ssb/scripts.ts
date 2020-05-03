@@ -118,8 +118,8 @@ export const BattleScripts: ModdedBattleScriptsData = {
 		}
 		if (
 			item.megaEvolves !== pokemon.baseSpecies.name ||
-			(Array.isArray(item.megaStone) && item.megaStone.includes(pokemon.species)) ||
-			(typeof item.megaStone === 'string' && item.megaStone === pokemon.forme)
+			(Array.isArray(item.megaStone) && item.megaStone.includes(pokemon.species.name)) ||
+			(typeof item.megaStone === 'string' && item.megaStone === pokemon.species.name)
 		) {
 			return null;
 		}
@@ -428,9 +428,9 @@ export const BattleScripts: ModdedBattleScriptsData = {
 			if (!source) source = this;
 
 			if (this.status === status.id) {
-				if (sourceEffect?.status === this.status) {
+				if ((sourceEffect as Move)?.status === this.status) {
 					this.battle.add('-fail', this, this.status);
-				} else if (sourceEffect?.status) {
+				} else if ((sourceEffect as Move)?.status) {
 					this.battle.add('-fail', source);
 					this.battle.attrLastMove('[still]');
 				}
@@ -443,7 +443,9 @@ export const BattleScripts: ModdedBattleScriptsData = {
 				// the game currently never ignores immunities
 				if (!this.runStatusImmunity(status.id === 'tox' ? 'psn' : status.id)) {
 					this.battle.debug('immune to status');
-					if (sourceEffect?.status) this.battle.add('-immune', this);
+					if ((sourceEffect as Move)?.status) {
+						this.battle.add('-immune', this);
+					}
 					return false;
 				}
 			}

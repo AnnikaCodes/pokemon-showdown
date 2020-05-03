@@ -180,12 +180,12 @@ export const BattleAbilities: {[k: string]: ModdedAbilityData} = {
 		},
 		onUpdate(pokemon) {
 			if (this.field.isWeather(['sunnyday', 'desolateland'])) {
-				if (pokemon.isActive && pokemon.id === 'cherrim' && this.effectData.forme !== 'Sunshine') {
+				if (pokemon.isActive && pokemon.species.id === 'cherrim' && this.effectData.forme !== 'Sunshine') {
 					this.effectData.forme = 'Sunshine';
 					this.add('-formechange', pokemon, 'Cherrim-Sunshine', '[msg]');
 					this.boost({spd: 1});
 				}
-			} else if (pokemon.isActive && pokemon.id === 'cherrim' && this.effectData.forme) {
+			} else if (pokemon.isActive && pokemon.species.id === 'cherrim' && this.effectData.forme) {
 				delete this.effectData.forme;
 				this.add('-formechange', pokemon, 'Cherrim', '[msg]');
 			}
@@ -280,7 +280,7 @@ export const BattleAbilities: {[k: string]: ModdedAbilityData} = {
 	reckless: {
 		inherit: true,
 		onBasePower(basePower, attacker, defender, move) {
-			if (move.recoil || move.hasCustomRecoil || attacker.item === 'lifeorb') {
+			if (move.recoil || move.hasCrashDamage || attacker.item === 'lifeorb') {
 				this.debug('Reckless boost');
 				return basePower * 12 / 10;
 			}
@@ -493,7 +493,6 @@ export const BattleAbilities: {[k: string]: ModdedAbilityData} = {
 				source.addVolatile('curse');
 			}
 		},
-		id: "cursedbody",
 		name: "Cursed Body",
 		rating: 3,
 		num: 130,
