@@ -1461,6 +1461,7 @@ export const commands: ChatCommands = {
 		if (!target) return this.parse(`/help hidetext`);
 
 		const lineCount = parseInt(this.splitTarget(target)) || 0;
+		const reason = lineCount ? target.split(',').slice(2).join(',').trim() : this.splitTarget(target);
 		const targetUser = this.targetUser;
 		const name = this.targetUsername;
 		if (!targetUser && !room.log.hasUsername(name)) {
@@ -1477,8 +1478,8 @@ export const commands: ChatCommands = {
 		}
 
 		if (targetUser && cmd.includes('alt')) {
-			room.send(`|c|~|${name}'s alts messages were cleared from ${room.title} by ${user.name}.`);
-			this.modlog('HIDEALTSTEXT', targetUser, null, {noip: 1});
+			room.send(`|c|~|${name}'s alts messages were cleared from ${room.title} by ${user.name}.${(reason ? ` (${reason})` : ``)}`);
+			this.modlog('HIDEALTSTEXT', targetUser, reason, {noip: 1});
 			room.hideText([
 				userid,
 				...Object.keys(targetUser.prevNames),
@@ -1486,17 +1487,17 @@ export const commands: ChatCommands = {
 			] as ID[]);
 		} else {
 			if (lineCount > 0) {
-				room.send(`|c|~|${lineCount} of ${name}'s messages were cleared from ${room.title} by ${user.name}.`);
+				room.send(`|c|~|${lineCount} of ${name}'s messages were cleared from ${room.title} by ${user.name}.${(reason ? ` (${reason})` : ``)}`);
 			} else {
-				room.send(`|c|~|${name}'s messages were cleared from ${room.title} by ${user.name}.`);
+				room.send(`|c|~|${name}'s messages were cleared from ${room.title} by ${user.name}.${(reason ? ` (${reason})` : ``)}`);
 			}
-			this.modlog('HIDETEXT', targetUser || userid, null, {noip: 1, noalts: 1});
+			this.modlog('HIDETEXT', targetUser || userid, reason, {noip: 1, noalts: 1});
 			room.hideText([userid], lineCount);
 		}
 	},
 	hidetexthelp: [
-		`/hidetext [username] - Removes a user's messages from chat. Requires: % @ # & ~`,
-		`/hidealtstext [username] - Removes a user's messages, and their alternate account's messages from the chat.  Requires: % @ # & ~`,
+		`/hidetext [username], [n], [reason] - Removes a user's messages from chat with an optional reason. If [n] is specified, removes only the most recent [n] lines. Requires: % @ # & ~`,
+		`/hidealtstext [username], [reason] - Removes a user's messages and their alternate accounts' messages from chat with an optional reason.  Requires: % @ # & ~`,
 	],
 
 	ab: 'blacklist',
