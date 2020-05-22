@@ -331,6 +331,7 @@ class ScavengerHunt extends Rooms.RoomGame {
 
 		this.runEvent('Load');
 		this.onLoad(questions);
+		this.runEvent('AfterLoad');
 	}
 
 	loadMods(modInformation) {
@@ -368,9 +369,9 @@ class ScavengerHunt extends Rooms.RoomGame {
 		connection.sendTo(this.room, this.getCreationMessage());
 	}
 
-	getCreationMessage() {
+	getCreationMessage(newHunt) {
 		const message = this.runEvent('CreateCallback');
-		return message || `|raw|<div class="broadcast-blue"><strong>${['official', 'unrated'].includes(this.gameType) ? 'An' : 'A'} ${this.gameType} Scavenger Hunt by <em>${Chat.escapeHTML(Chat.toListString(this.hosts.map(h => h.name)))}</em> has been started${(this.hosts.some(h => h.id === this.staffHostId) ? '' : ` by <em>${Chat.escapeHTML(this.staffHostName)}</em>`)}.<br />The first hint is: ${Chat.formatText(this.questions[0].hint)}</strong></div>`;
+		return message || `|raw|<div class="broadcast-blue"><strong>${['official', 'unrated'].includes(this.gameType) && !newHunt ? 'An' : 'A'} ${newHunt ? 'new ' : ''}${this.gameType} Scavenger Hunt by <em>${Chat.escapeHTML(Chat.toListString(this.hosts.map(h => h.name)))}</em> has been started${(this.hosts.some(h => h.id === this.staffHostId) ? '' : ` by <em>${Chat.escapeHTML(this.staffHostName)}</em>`)}.<br />The first hint is: ${Chat.formatText(this.questions[0].hint)}</strong></div>`;
 	}
 
 	joinGame(user) {
@@ -421,7 +422,8 @@ class ScavengerHunt extends Rooms.RoomGame {
 			this.questions.push({hint: hint, answer: answer, spoilers: []});
 		}
 
-		this.announce(`A new ${this.gameType} Scavenger Hunt by <em>${Chat.escapeHTML(Chat.toListString(this.hosts.map(h => h.name)))}</em> has been started${(this.hosts.some(h => h.id === this.staffHostId) ? '' : ` by <em>${Chat.escapeHTML(this.staffHostName)}</em>`)}.<br />The first hint is: ${Chat.formatText(this.questions[0].hint)}`);
+		const message = this.getCreationMessage(true);
+		this.room.add(message).update();
 	}
 
 	runEvent(event_id, ...args) {
@@ -528,7 +530,7 @@ class ScavengerHunt extends Rooms.RoomGame {
 	}
 
 	onViewHunt(user) {
-		if (this.runEvent('onViewHunt', user)) return;
+		if (this.runEvent('ViewHunt', user)) return;
 
 		let qLimit = 1;
 		if (this.hosts.some(h => h.id === user.id) || user.id === this.staffHostId)	{
@@ -565,7 +567,7 @@ class ScavengerHunt extends Rooms.RoomGame {
 			reset = true;
 		}
 
-		this.runEvent('End');
+		this.runEvent('End', reset);
 		if (!ScavengerHuntDatabase.isEmpty() && this.room.addRecycledHuntsToQueueAutomatically) {
 			if (!this.room.scavQueue) {
 				this.room.scavQueue = [];
@@ -1164,9 +1166,6 @@ const commands = {
 		const game = room.game;
 		if ((!game.hosts.some(h => h.id === user.id) || !user.can('broadcast', null, room)) && game.staffHostId !== user.id) return this.errorReply("You cannot add more hints if you are not the host.");
 
-		const elapsedTime = Date.now() - game.startTime;
-		if (elapsedTime < 600000 /* 10 minutes */) return this.errorReply("You can only use this command 10 minutes after the hunt starts.");
-
 		let [question, ...hint] = target.split(',');
 		question = parseInt(question) - 1;
 		hint = hint.join(',');
@@ -1178,6 +1177,42 @@ const commands = {
 		room.addByUser(user, `Question #${question + 1} hint - spoiler: ${hint}`);
 	},
 
+	deletehint: 'removehint',
+	removehint(target, room, user) {
+		if (!room.game || !room.game.scavGame) return this.errorReply(`There is no scavenger game currently running.`);
+		const game = room.game;
+		if ((!game.hosts.some(h => h.id === user.id) || !user.can('broadcast', null, room)) && game.staffHostId !== user.id) return this.errorReply("You cannot remove hints if you are not the host.");
+
+		let [question, hint] = target.split(',');
+		question = parseInt(question) - 1;
+		hint = parseInt(hint) - 1;
+
+		if (!game.questions[question]) return this.errorReply(`Invalid question number.`);
+		if (!game.questions[question].spoilers[hint]) return this.errorReply('Invalid hint number.');
+		game.questions[question].spoilers.splice(hint, 1);
+
+		return this.sendReply("Hint has been removed.");
+	},
+
+	modifyhint: 'edithint',
+	edithint(target, room, user) {
+		if (!room.game || !room.game.scavGame) return this.errorReply(`There is no scavenger game currently running.`);
+		const game = room.game;
+		if ((!game.hosts.some(h => h.id === user.id) || !user.can('broadcast', null, room)) && game.staffHostId !== user.id) return this.errorReply("You cannot edit hints if you are not the host.");
+
+		let [question, hint, ...value] = target.split(',');
+		question = parseInt(question) - 1;
+		hint = parseInt(hint) - 1;
+		value = value.join(',');
+
+		if (!game.questions[question]) return this.errorReply(`Invalid question number.`);
+		if (!game.questions[question].spoilers[hint]) return this.errorReply('Invalid hint number.');
+		if (!value) return this.errorReply('The hint cannot be left empty.');
+		game.questions[question].spoilers[hint] = value;
+
+		room.addByUser(user, `Question #${question + 1} hint - spoiler: ${value}`);
+		return this.sendReply("Hint has been modified.");
+	},
 
 	kick(target, room, user) {
 		if (!room.game || !room.game.scavGame) return this.errorReply(`There is no scavenger game currently running.`);
@@ -1545,7 +1580,7 @@ const commands = {
 		if (room.officialtwist) {
 			this.privateModAction(`(${user.name} has set the official twist to ${room.officialtwist})`);
 		} else {
-			this.privateModAction(`(${user.name} has removed the official twist.`);
+			this.privateModAction(`(${user.name} has removed the official twist.)`);
 		}
 		this.modlog('SCAV TWIST', null, room.officialtwist);
 
@@ -1959,7 +1994,9 @@ exports.commands = {
 			"<strong>Staff commands:</strong>",
 			"- /starthunt <em>[host] | [hint] | [answer] | [hint] | [answer] | [hint] | [answer] | ...</em> - creates a new scavenger hunt. (Requires: % @ * # & ~)",
 			"- /start(official/practice/mini/unrated)hunt <em>[host] | [hint] | [answer] | [hint] | [answer] | [hint] | [answer] | ...</em> - creates a new scavenger hunt, giving points if assigned.  Blitz and wins will count towards the leaderboard. (Requires: % @ * # & ~)",
-			"- /scav addhint <em>[question number], [value]</em> - adds a hint to a question in the current scavenger hunt. Can only be used after 10 minutes have passed since the start of the hunt. Only the host(s) can add a hint.",
+			"- /scav addhint <em>[question number], [value]</em> - adds a hint to a question in the current scavenger hunt. Only the host(s) can add a hint.",
+			"- /scav removehint <em>[question number], [hint number]</em> - removes a hint from a question in the current scavenger hunt. Only the host(s) can remove a hint.",
+			"- /scav edithint <em>[question number], [hint number], [value]</em> - edits a hint to a question in the current scavenger hunt. Only the host(s) can edit a hint.",
 			"- /edithunt <em>[question number], [hint | answer], [value]</em> - edits the current scavenger hunt. Only the host(s) can edit the hunt.",
 			"- /resethunt - resets the current scavenger hunt without revealing the hints and answers. (Requires: % @ * # & ~)",
 			"- /endhunt - ends the current scavenger hunt and announces the winners and the answers. (Requires: % @ * # & ~)",
