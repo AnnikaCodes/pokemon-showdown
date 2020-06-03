@@ -7,10 +7,15 @@
  * @license MIT license
  */
 
-function formatEvent(
-	event: {eventName: string, date: string, desc: string, started: boolean, aliases: string[]},
-	showAliases: boolean
-) {
+export interface Event {
+	eventName: string;
+	date: string;
+	desc: string;
+	started: boolean;
+	aliases: string[];
+}
+
+function formatEvent(event: Event, showAliases: boolean) {
 	const timeRemaining = new Date(event.date).getTime() - new Date().getTime();
 	let explanation = timeRemaining.toString();
 	if (!timeRemaining) explanation = "The time remaining for this event is not available";

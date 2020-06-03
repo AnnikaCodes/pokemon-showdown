@@ -67,6 +67,7 @@ export type Room = GlobalRoom | GameRoom | ChatRoom;
 type Poll = import('./chat-plugins/poll').Poll;
 type Announcement = import('./chat-plugins/announcements').Announcement;
 type Tournament = import('./tournaments/index').Tournament;
+type Event = import('./chat-plugins/room-events').Event;
 
 export abstract class BasicRoom {
 	roomid: RoomID;
@@ -126,7 +127,7 @@ export abstract class BasicRoom {
 	staffRoom: boolean;
 	language: string | false;
 	slowchat: number | false;
-	events: {[k: string]: {eventName: string, date: string, desc: string, started: boolean, aliases: string[]}};
+	events: {[k: string]: Event};
 	filterStretching: boolean;
 	filterEmojis: boolean;
 	filterCaps: boolean;
