@@ -201,7 +201,8 @@ export const IPTools = new class {
 	mobileHosts: Set<string> = new Set();
 	async loadHostsAndRanges() {
 		const data = await FS(HOSTS_FILE).readIfExists() + await FS(PROXIES_FILE).readIfExists();
-		const rows = data.split('\n');
+		// Strip carriage returns for Windows compatibility
+		const rows = data.split('\n').map(row => row.replace('\r', ''));
 		const ranges = [];
 		for (const row of rows) {
 			if (!row) continue;
