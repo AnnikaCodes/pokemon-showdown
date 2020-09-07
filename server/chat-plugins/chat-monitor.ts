@@ -79,6 +79,10 @@ function constructEvasionRegex(str: string) {
 	return new RegExp(buf, 'i');
 }
 
+function removeWordBoundaries(regex: RegExp) {
+	return new RegExp(regex.toString().replace('/\\b', '').replace('\\b/i', ''), 'i');
+}
+
 function renderEntry(location: string, word: FilterWord, punishment: string) {
 	return `${location}\t${word[1]}\t${punishment}\t${word[2]}\t${word[4]}${word[3] ? `\t${word[3]}` : ''}\r\n`;
 }
@@ -364,7 +368,10 @@ export const namefilter: NameFilter = (name, user) => {
 	for (const list in filterWords) {
 		if (Chat.monitors[list].location === 'BATTLES') continue;
 		for (const line of filterWords[list]) {
-			const [regex] = line;
+			let [regex] = line;
+			if (Chat.monitors[list].punishment === 'EVASION') {
+				regex = removeWordBoundaries(regex);
+			}
 
 			if (regex.test(lcName)) {
 				if (Chat.monitors[list].punishment === 'AUTOLOCK') {
@@ -422,7 +429,7 @@ export const nicknamefilter: NameFilter = (name, user) => {
 				// Evasion banwords by default require whitespace on either side.
 				// If we didn't remove it here, it would be quite easy to evade the filter
 				// and use slurs in Pokémon nicknames.
-				regex = new RegExp(regex.toString().replace('/\\b', '').replace('\\b/i', ''), 'i');
+				regex = removeWordBoundaries(regex);
 			}
 
 			if (regex.test(lcName)) {
