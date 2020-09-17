@@ -728,11 +728,11 @@ export const Punishments = new class {
 	) {
 		if (!message) message = reason;
 
-		let punishment = `LOCKED`;
+		let punishment = `LOCK`;
 		let expires = null;
 		if (week) {
 			expires = Date.now() + 7 * 24 * 60 * 60 * 1000;
-			punishment = `WEEKLOCKED`;
+			punishment = `WEEKLOCK`;
 		}
 
 		const userid = toID(user);
@@ -744,20 +744,22 @@ export const Punishments = new class {
 		} else {
 			await Punishments.lock(user, expires, userid, false, `Autolock: ${name}: ${reason}`);
 		}
-		Monitor.log(`[${source}] ${punishment}: ${message}`);
+		Monitor.log(`[${source}] ${punishment}ED: ${message}`);
 		const roomauth = Rooms.global.destroyPersonalRooms(userid);
 		if (roomauth.length) {
 			Monitor.log(`[CrisisMonitor] Autolocked user ${name} has public roomauth (${roomauth.join(', ')}), and should probably be demoted.`);
 		}
 
 		const logEntry: ModlogEntry = {
-			action: `AUTO${punishment.replace('ED', '')}`,
+			action: `AUTO${punishment}`,
 			visualRoomID: typeof room !== 'string' ? (room as Room).roomid : room,
+			ip: typeof user !== 'string' ? (user as User).latestIp : undefined,
 			userid: userid,
 			note: reason,
 		};
 		if (typeof user !== 'string') logEntry.ip = (user as User).latestIp;
 		Rooms.global.modlog(logEntry);
+		Rooms.get(room)?.modlog(logEntry);
 
 		const roomObject = Rooms.get(room);
 		const userObject = Users.get(user);
