@@ -123,7 +123,7 @@ function prettifyResults(
 			if (!hideIps && result.ip) line += ` [${result.ip}]`;
 		}
 
-		if (result.loggedBy) line += ` by ${result.loggedBy}`;
+		if (result.loggedBy) line += `: by ${result.loggedBy}`;
 		if (result.note) line += `: ${result.note}`;
 
 		if (dateString !== curDate) {

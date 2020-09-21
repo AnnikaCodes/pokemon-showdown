@@ -76,6 +76,7 @@ export class Roomlog {
 		this.roomlogStream = undefined;
 		this.roomlogFilename = '';
 
+		Rooms.Modlog.initialize(this.roomid);
 		void this.setupRoomlogStream(true);
 	}
 	getScrollback(channel = 0) {
@@ -228,7 +229,7 @@ export class Roomlog {
 	async rename(newID: RoomID): Promise<true> {
 		const roomlogPath = `logs/chat`;
 		const roomlogStreamExisted = this.roomlogStream !== null;
-		await this.destroy();
+		await this.destroy(false); // don't destroy modlog, since it's renamed later
 		await Promise.all([
 			FS(roomlogPath + `/${this.roomid}`).exists(),
 			FS(roomlogPath + `/${newID}`).exists(),
@@ -270,12 +271,13 @@ export class Roomlog {
 		}
 	}
 
-	destroy() {
+	destroy(destroyModlog?: boolean) {
 		const promises = [];
 		if (this.roomlogStream) {
 			promises.push(this.roomlogStream.writeEnd());
 			this.roomlogStream = null;
 		}
+		if (destroyModlog) promises.push(Rooms.Modlog.destroy(this.roomid));
 		Roomlogs.roomlogs.delete(this.roomid);
 		return Promise.all(promises);
 	}

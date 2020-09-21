@@ -7,10 +7,8 @@
 // @ts-ignore Needed for FS
 if (!global.Config) global.Config = {nofswriting: false};
 
-import {FS} from '../../lib/fs';
-import {ModlogEntry, Modlog} from '../../server/modlog';
+import {ModlogEntry} from '../../server/modlog';
 import {IPTools} from '../../server/ip-tools';
-import * as Database from 'better-sqlite3';
 
 type ModlogFormat = 'txt' | 'sqlite';
 
@@ -338,14 +336,15 @@ export function parseModlog(raw: string, nextLine?: string, isGlobal = false): M
 		}
 	}
 
-	const actionTakerColonIndex = line.indexOf(':');
-	const actionTaker = line.slice(3, actionTakerColonIndex > -1 ? actionTakerColonIndex : undefined);
-	log.loggedBy = toID(actionTaker);
-	if (actionTakerColonIndex > -1) {
-		line = line.slice(actionTakerColonIndex + 1);
-		const note = line.slice(1);
-		log.note = note;
+	const actionTakerIndex = line.indexOf(' by ');
+	if (actionTakerIndex) {
+		const colonIndex = line.indexOf(':');
+		const actionTaker = line.slice(actionTakerIndex + 3, colonIndex > -1 ? colonIndex : undefined);
+		log.loggedBy = toID(actionTaker) || undefined;
+		if (colonIndex > -1) line = line.slice(colonIndex);
+		line = line.replace(/by .*/, '').replace(/^\s?:\s?/, '');
 	}
+	if (line) log.note = line;
 
 	return log;
 }
@@ -359,134 +358,4 @@ export function rawifyLog(log: ModlogEntry) {
 	if (log.loggedBy) result += ` by ${log.loggedBy}`;
 	if (log.note) result += `: ${log.note}`;
 	return result + `\n`;
-}
-
-export class ModlogConverterSQLite {
-	readonly databaseFile: string;
-	readonly textLogDir: string;
-	readonly isTesting: {files: Map<string, string>, db: Database.Database} | null = null;
-
-	constructor(databaseFile: string, textLogDir: string, isTesting?: Database.Database) {
-		this.databaseFile = databaseFile;
-		this.textLogDir = textLogDir;
-		if (isTesting || Config.nofswriting) {
-			this.isTesting = {files: new Map<string, string>(), db: isTesting || new Database(':memory')};
-		}
-	}
-
-	async toTxt() {
-		const database = this.isTesting?.db || new Database(this.databaseFile, {fileMustExist: true});
-		const roomids = database.prepare('SELECT DISTINCT roomid FROM modlog').all();
-		const rawLogs: {[roomid: string]: string[]} = {};
-		for (const {roomid} of roomids) {
-			if (!Config.nofswriting) console.log(`Reading ${roomid}...`);
-			const results = database.prepare(
-				`SELECT *, (SELECT group_concat(userid, ',') FROM alts WHERE alts.modlog_id = modlog.modlog_id) as alts ` +
-				`FROM modlog WHERE roomid = ? ORDER BY timestamp ASC`
-			).all(roomid);
-			for (const result of results) {
-				const entry: ModlogEntry = {
-					action: result.action,
-					roomID: result.roomid?.replace(/^global-/, ''),
-					visualRoomID: result.visual_roomid,
-					userid: result.userid,
-					autoconfirmedID: result.autoconfirmed_userid,
-					alts: result.alts?.split(','),
-					ip: result.ip,
-					isGlobal: result.roomid?.startsWith('global-') || result.roomid === 'global',
-					loggedBy: result.action_taker_userid,
-					note: result.note,
-					time: result.timestamp,
-				};
-				const key = entry.roomID?.split('-')[0] || 'global';
-				if (!rawLogs[key]) rawLogs[key] = [];
-				const rawLog = rawifyLog(entry);
-				rawLogs[key].push(rawLog);
-				if (entry.isGlobal) {
-					if (!rawLogs.global) rawLogs.global = [];
-					rawLogs.global.push(rawLog);
-				}
-			}
-		}
-		for (const [roomid, logs] of Object.entries(rawLogs)) {
-			if (!Config.nofswriting) console.log(`Writing modlog_${roomid}.txt...`);
-			await this.writeFile(`${this.textLogDir}/modlog_${roomid}.txt`, logs.join(''));
-		}
-	}
-
-	async writeFile(path: string, text: string) {
-		if (this.isTesting) {
-			return this.isTesting.files.set(path, text);
-		}
-		return FS(path).write(text);
-	}
-}
-
-export class ModlogConverterTxt {
-	readonly databaseFile: string;
-	readonly textLogDir: string;
-	readonly isTesting: {files: Map<string, string>, ml?: Modlog} | null = null;
-	constructor(databaseFile: string, textLogDir: string, isTesting?: Map<string, string>) {
-		this.databaseFile = databaseFile;
-		this.textLogDir = textLogDir;
-		if (isTesting || Config.nofswriting) {
-			this.isTesting = {
-				files: isTesting || new Map<string, string>(),
-			};
-		}
-	}
-
-	async toSQLite() {
-		const files = this.isTesting ? [...this.isTesting.files.keys()] : await FS(this.textLogDir).readdir();
-		const logs: ModlogEntry[] = [];
-		// Read global modlog last to avoid inserting duplicate data to database
-		if (files.includes('modlog_global.txt')) {
-			files.splice(files.indexOf('modlog_global.txt'), 1);
-			files.push('modlog_global.txt');
-		}
-		for (const file of files) {
-			if (file === 'README.md') continue;
-			const raw = this.isTesting ? this.isTesting.files.get(file) || '' : await FS(`${this.textLogDir}/${file}`).read();
-			const roomid = file.slice(7, -4);
-			const entries = raw.split('\n')
-				.map((line, index) => {
-					const entry = parseModlog(line, raw[index + 1], roomid === 'global');
-					if (roomid === 'global' && entry?.roomID === 'global') return null;
-					return entry;
-				});
-			for (const entry of entries) {
-				if (entry) logs.push(entry);
-			}
-		}
-		const modlog = new Modlog(this.isTesting ? ':memory:' : `${__dirname}/../../${this.databaseFile}`, true);
-		const interval = Math.floor(logs.length / 100);
-		if (!Config.nofswriting) process.stdout.write(`Loaded ${logs.length} entries`);
-		for (const [index, log] of logs.entries()) {
-			if (!Config.nofswriting && index && (index % interval === 0 || index === logs.length - 1)) {
-				process.stdout.clearLine(0);
-				process.stdout.cursorTo(0);
-				process.stdout.write(`(${Math.floor(index / interval)}%) inserted ${index + 1}/${logs.length} entries`);
-			}
-			modlog.write(log.roomID || 'global', log);
-		}
-		return modlog.database;
-	}
-}
-
-export class ModlogConverter {
-	static async convert(from: ModlogFormat, to: ModlogFormat, databasePath: string, textLogDirectoryPath: string) {
-		if (from === 'sqlite' && to === 'txt') {
-			const converter = new ModlogConverterSQLite(databasePath, textLogDirectoryPath);
-			return converter.toTxt().then(() => {
-				console.log("Done!");
-				process.exit();
-			});
-		} else if (from === 'txt' && to === 'sqlite') {
-			const converter = new ModlogConverterTxt(databasePath, textLogDirectoryPath);
-			return converter.toSQLite().then(() => {
-				console.log("\nDone!");
-				process.exit();
-			});
-		}
-	}
 }
