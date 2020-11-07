@@ -4,6 +4,7 @@
  * Original /adddatacenters command written by Zarel
  */
 
+import { throws } from "assert";
 import {Utils} from "../../lib/utils";
 import {AddressRange} from "../ip-tools";
 import {GlobalPermission} from "../user-groups";
@@ -496,6 +497,27 @@ export const commands: ChatCommands = {
 	viewsharedipshelp: [
 		`/viewsharedips — Lists IP addresses marked as shared. Requires: hosts manager @ &`,
 	],
+
+	ipdistance(target, room, user) {
+		this.checkCan('lock');
+
+		const [ipA, ipB] = target.split(',').map(part => part.trim());
+		if (!ipA || !ipB) return this.parse('/help ipdistance');
+
+		if (!IPTools.ipRegex.test(ipA)) throw new Chat.ErrorMessage(`'${ipA}' is not a valid IP address.`);
+		if (!IPTools.ipRegex.test(ipB)) throw new Chat.ErrorMessage(`'${ipB}' is not a valid IP address.`);
+
+		let distance;
+		try {
+			distance = IPTools.geolocateDistance(ipA, ipB);
+		} catch (e) {
+			if (e.text = 'GeolocationError') throw new Chat.ErrorMessage(e.message);
+			throw e;
+		}
+
+		this.runBroadcast();
+		this.sendReplyBox(`The IP addresses ${ipA} and ${ipB} are approximately ${Math.round(distance)} kilometers apart.`);
+	}
 };
 
 process.nextTick(() => {

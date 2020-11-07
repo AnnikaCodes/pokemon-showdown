@@ -18,6 +18,9 @@ const BLOCKLISTS = ['sbl.spamhaus.org', 'rbl.efnetrbl.org'];
 const HOSTS_FILE = 'config/hosts.csv';
 const PROXIES_FILE = 'config/proxies.csv';
 
+const EARTH_RADIUS_KM = 6378;
+const DEG_TO_RAD = Math.PI / 180;
+
 import * as dns from 'dns';
 import * as geoIP from 'geoip-lite';
 import XOAuth2 = require('nodemailer/lib/xoauth2');
@@ -33,6 +36,13 @@ export interface AddressRange {
 export interface Coordinates {
 	latitude: number;
 	longitude: number;
+}
+
+class GeolocationError extends Error {
+	constructor(message: string) {
+		super(message);
+		this.name = 'GeolocationError';
+	}
 }
 
 function removeNohost(hostname: string) {
@@ -456,10 +466,10 @@ export const IPTools = new class {
 		const resultA = IPTools.getLatLong(a);
 		const resultB = IPTools.getLatLong(b);
 
-		if (!resultA) throw new Error(`Could not find IP latitude and longitude data for the IP address ${a}`);
-		if (!resultB) throw new Error(`Could not find IP latitude and longitude data for the IP address ${b}`);
+		if (!resultA) throw new GeolocationError(`Could not find latitude and longitude data for the IP address ${a}`);
+		if (!resultB) throw new GeolocationError(`Could not find latitude and longitude data for the IP address ${b}`);
 
-		return IPTools.computeDistance(resultA, resultB);
+		return IPTools.computeHaversineDistance(resultA, resultB);
 	}
 
 	getLatLong(ip: string | number): Coordinates | null {
@@ -469,11 +479,27 @@ export const IPTools = new class {
 		return {latitude: result.ll[0], longitude: result.ll[1]};
 	}
 
-	computeDistance(a: Coordinates, b: Coordinates) {
-		// Distance formula: sqrt((x1 - x2)^2 + (y1 - y2)^2)
-		const latitudeDelta = a.latitude - b.latitude;
-		const longitudeDelta = a.longitude - b.longitude;
-		return Math.sqrt((latitudeDelta ** 2) + (longitudeDelta ** 2));
+	/**
+	 * Computes the distance between two points (in km) on the Earth using the Haversine formula.
+	 *
+	 * See https://www.geeksforgeeks.org/haversine-formula-to-find-distance-between-two-points-on-a-sphere/
+	 * for an explanation of the formula.
+	 */
+	computeHaversineDistance(a: Coordinates, b: Coordinates) {
+		const latitudeA = a.latitude * DEG_TO_RAD;
+		const longitudeA = a.longitude * DEG_TO_RAD;
+		const latitudeB = b.latitude * DEG_TO_RAD;
+		const longitudeB = b.longitude * DEG_TO_RAD;
+
+		const latChange = latitudeA - latitudeA;
+		const longChange = longitudeA - longitudeB;
+
+		const root = Math.sqrt(
+			Math.sin(latChange / 2) ** 2 +
+			(Math.sin(longChange / 2) ** 2) * Math.cos(latitudeA) * Math.cos(latitudeB)
+		);
+
+		return 2 * EARTH_RADIUS_KM * Math.asin(root);
 	}
 
 	/**
