@@ -19,12 +19,20 @@ const HOSTS_FILE = 'config/hosts.csv';
 const PROXIES_FILE = 'config/proxies.csv';
 
 import * as dns from 'dns';
+import * as geoIP from 'geoip-lite';
+import XOAuth2 = require('nodemailer/lib/xoauth2');
 import {FS} from '../lib/fs';
+import { Item } from '../sim/dex-data';
 
 export interface AddressRange {
 	minIP: number;
 	maxIP: number;
 	host?: string;
+}
+
+export interface Coordinates {
+	latitude: number;
+	longitude: number;
 }
 
 function removeNohost(hostname: string) {
@@ -41,7 +49,6 @@ export const IPTools = new class {
 	readonly dnsblCache = new Map<string, string | null>([
 		['127.0.0.1', null],
 	]);
-
 	readonly connectionTestCache = new Map<string, boolean>();
 
 	// eslint-disable-next-line max-len
@@ -186,7 +193,6 @@ export const IPTools = new class {
 	/******************************
 	 * Range management functions *
 	 ******************************/
-
 
 	checkPattern(patterns: AddressRange[], num: number) {
 		for (const pattern of patterns) {
@@ -441,6 +447,33 @@ export const IPTools = new class {
 	removeRange(minIP: number, maxIP: number) {
 		IPTools.ranges = IPTools.ranges.filter(dc => dc.minIP !== minIP || dc.maxIP !== maxIP);
 		return IPTools.saveHostsAndRanges();
+	}
+
+	/**
+	 * Geolocation functions
+	 */
+	geolocateDistance(a: string | number, b: string | number) {
+		const resultA = IPTools.getLatLong(a);
+		const resultB = IPTools.getLatLong(b);
+
+		if (!resultA) throw new Error(`Could not find IP latitude and longitude data for the IP address ${a}`);
+		if (!resultB) throw new Error(`Could not find IP latitude and longitude data for the IP address ${b}`);
+
+		return IPTools.computeDistance(resultA, resultB);
+	}
+
+	getLatLong(ip: string | number): Coordinates | null {
+		const result = geoIP.lookup(ip);
+		if (result?.ll?.length !== 2) return null;
+
+		return {latitude: result.ll[0], longitude: result.ll[1]};
+	}
+
+	computeDistance(a: Coordinates, b: Coordinates) {
+		// Distance formula: sqrt((x1 - x2)^2 + (y1 - y2)^2)
+		const latitudeDelta = a.latitude - b.latitude;
+		const longitudeDelta = a.longitude - b.longitude;
+		return Math.sqrt((latitudeDelta ** 2) + (longitudeDelta ** 2));
 	}
 
 	/**
