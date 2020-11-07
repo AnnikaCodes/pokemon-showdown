@@ -23,9 +23,7 @@ const DEG_TO_RAD = Math.PI / 180;
 
 import * as dns from 'dns';
 import * as geoIP from 'geoip-lite';
-import XOAuth2 = require('nodemailer/lib/xoauth2');
 import {FS} from '../lib/fs';
-import { Item } from '../sim/dex-data';
 
 export interface AddressRange {
 	minIP: number;
