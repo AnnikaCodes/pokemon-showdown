@@ -74,6 +74,8 @@ export function crashlogger(
 		transport.sendMail({
 			from: Config.crashguardemail.from,
 			to: Config.crashguardemail.to,
+			cc: Config.crashguardemail.cc,
+			bcc: Config.crashguardemail.bcc,
 			subject: Config.crashguardemail.subject,
 			text,
 		}, (err: Error | null) => {
