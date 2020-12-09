@@ -85,7 +85,7 @@ export const translations: Translations = {
 		"- !showimage <em>, [width], [height]</em>: show an image to the room": "- !showimage <em>[url], [larghezza], [lunghezza]</em>: mostra un'immagine in room",
 		"- /roomsettings: change a variety of room settings, including modchat, capsfilter, etc": "- /roomsettings: modifica una variet&agrave; di impostazioni, incluse modchat, capsfilter, etc",
 
-		"More detailed help can be found in the <a href=\"https://www.smogon.com/forums/posts/6774654/\">roomauth guide</a>": "Maggiori informazioni possono essere trovate nella <a href=\"https://www.smogon.com/forums/posts/6774654/\">guida per roomauth</a>",
+		'More detailed help can be found in the <a href="https://www.smogon.com/forums/posts/6774654/">roomauth guide</a>': 'More detailed help can be found in the <a href="https://www.smogon.com/forums/posts/6774654/">roomauth guide</a>',
 
 		"Tournament Help:": "Assistenza per i Tornei:",
 		"- /tour create <em>format</em>, elimination: create a new single elimination tournament in the current room.": "- /tour create <em>formato</em>, elimination: crea un nuovo torneo ad eliminazione diretta nella room",
@@ -94,12 +94,12 @@ export const translations: Translations = {
 		"- /tour start: start the tournament in the current room": "- /tour start: fa cominciare il torneo",
 		"- /tour banlist [pokemon], [talent], [...]: ban moves, abilities, Pokémon or items from being used in a tournament (it must be created first)": "- /tour banlist [pokemon], [talent], [...]: banna mosse, abilit&agrave;, Pok&eacute;mon o strumenti dal torneo (prima &egrave; necessario creare il torneo)",
 
-		"More detailed help can be found in the <a href=\"https://www.smogon.com/forums/posts/6777489/\">tournaments guide</a>": "Maggiori informazioni possono essere trovate nella <a href=\"https://www.smogon.com/forums/posts/6777489/\">guida per tornei</a>",
+		'More detailed help can be found in the <a href="https://www.smogon.com/forums/posts/6777489/">tournaments guide</a>': 'More detailed help can be found in the <a href="https://www.smogon.com/forums/posts/6777489/">tournaments guide</a>',
 
 		"Your status cannot be updated while you are locked or semilocked.": "Il tuo stato non può essere aggiornato mentre sei lockato o semilockato.",
 		"Your status is too long; it must be under ${maxLength} characters.": "Il tuo stato è troppo lungo; deve avere una lunghezza inferiore a ${maxLength} caratteri.",
 		"Your status contains a banned word.": "Il tuo stato contiene una parola proibita.",
-		"Your status has been set to: ${target}.": "Il tuo stato è stato cambiato in: ${target}.", "You are now marked as busy.": "Sei ora indicato come busy (occupato).",
+		'Your status has been set to: ${target}.": "Il tuo stato è stato cambiato in: ${target}.", "You are now marked as busy.': 'Your status has been set to: ${target}.": "Il tuo stato è stato cambiato in: ${target}.", "You are now marked as busy.',
 		"You are now marked as away. Send a message or use /back to indicate you are back.": "Sei ora indicato come away (assente). Invia un messaggio o usa il comando /back per indicare che sei nuovamente presente.",
 		"You are already marked as back.": "Sei già indicato come back (attivo).",
 		"You are no longer marked as busy.": "Non sei più indicato come busy (occupato).",
@@ -120,11 +120,11 @@ export const translations: Translations = {
 
 		"You are ${lockType} and can only private message members of the global moderation team. ${lockExpiration}": "Sei ${lockType} e puoi mandare messaggi privati solo ai membri del team di moderazione globale.",
 		"Get help with this": "Richiedi aiuto per questo",
-		"The user \"${targetUser.name}\" is locked and cannot be PMed.": "Questo utente \"${targetUser.name}\" è lockato e non è possibile mandargli un messaggio privato.",
+		'The user "${targetUser.name}" is locked and cannot be PMed.': 'The user "${targetUser.name}" is locked and cannot be PMed.',
 		"On this server, you must be of rank ${groupName} or higher to PM users.": "In questo server, devi avere il rank ${groupName} o superiore per mandare un messaggio privato agli utenti",
 		"This user is blocking private messages right now.": "Al momento, questo utente sta bloccando i messaggi privati.",
 		"This ${Config.groups[targetUser.group].name} is too busy to answer private messages right now. Please contact a different staff member.": "Al momento, questo ${Config.groups[targetUser.group].name} è troppo impegnato per rispondere ai messaggi privati. Per favore, contatta un altro membro dello staff.",
-		"If you need help, try opening a <a href=\"view-help-request\" class=\"button\">help ticket</a>": "Se hai bisogno di aiuto, prova ad aprire un <a href=\"view-help-request\" class=\"button\">ticket help</a>",
+		'If you need help, try opening a <a href="view-help-request" class="button">help ticket</a>': 'If you need help, try opening a <a href="view-help-request" class="button">help ticket</a>',
 		"You are blocking private messages right now.": "In questo momento stai bloccando i messaggi privati.",
 
 		"Your message contained banned words in this room.": "Il tuo messaggio conteneva una o più parole non permesse in questa room.",
@@ -144,7 +144,7 @@ export const translations: Translations = {
 
 		"Staff FAQ": "FAQ relative allo Staff",
 		"You cannot broadcast all FAQs at once.": "Non puoi mostrare tutte le FAQ in una volta.",
-		"A user is autoconfirmed when they have won at least one rated battle and have been registered for one week or longer. In order to prevent spamming and trolling, most chatrooms only allow autoconfirmed users to chat. If you are not autoconfirmed, you can politely PM a staff member (staff have %, @, or # in front of their username) in the room you would like to chat and ask them to disable modchat. However, staff are not obligated to disable modchat. However, staff are not obligated to disable modchat": "Un utente è \"autoconfirmed\" quando ha vinto almeno una lotta a punti ed è registrato da una o più settimane. In modo da prevenire episodi di spam e trolling, la maggior parte delle chatroom permette unicamente agli utenti autoconfirmed di parlare. Nel caso in cui tu non sia autoconfirmed, chiedi educatamente ad un membro dello staff (lo staff è contrassegnato dai simboli %, @ o # vicino al loro nome utente) della room nella quale vuoi parlare e chiedi loro di disattivare la modchat. Tuttavia, lo staff non è in alcun modo obbligato a disattivare la modchat.",
+		'A user is autoconfirmed when they have won at least one rated battle and have been registered for one week or longer. In order to prevent spamming and trolling, most chatrooms only allow autoconfirmed users to chat. If you are not autoconfirmed, you can politely PM a staff member (staff have %, @, or # in front of their username) in the room you would like to chat and ask them to disable modchat. However, staff are not obligated to disable modchat. However, staff are not obligated to disable modchat': 'Un utente è "autoconfirmed" quando ha vinto almeno una lotta a punti ed è registrato da una o più settimane. In modo da prevenire episodi di spam e trolling, la maggior parte delle chatroom permette unicamente agli utenti autoconfirmed di parlare. Nel caso in cui tu non sia autoconfirmed, chiedi educatamente ad un membro dello staff (lo staff è contrassegnato dai simboli %, @ o # vicino al loro nome utente) della room nella quale vuoi parlare e chiedi loro di disattivare la modchat. Tuttavia, lo staff non è in alcun modo obbligato a disattivare la modchat.',
 		"How the ladder works": "Come funziona la ladder",
 		"Tiering FAQ": "FAQ relative al Tiering",
 		"Badge FAQ": "FAQ relative alle Badge",

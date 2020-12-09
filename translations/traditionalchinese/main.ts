@@ -85,7 +85,7 @@ export const translations: Translations = {
 		"- !showimage <em>, [width], [height]</em>: show an image to the room": "- !showimage <em>[url], [寬度], [高度]</em>: 在房內顯示圖片",
 		"- /roomsettings: change a variety of room settings, including modchat, capsfilter, etc": "- /roomsettings: 顯示並修改房內的某些設置，包括modchat，大寫限制等",
 
-		"More detailed help can be found in the <a href=\"https://www.smogon.com/forums/posts/6774654/\">roomauth guide</a>": "需要更多幫助可以閱讀 <a href=\"https://www.smogon.com/forums/posts/6774654/\">房間管理指導</a>",
+		'More detailed help can be found in the <a href="https://www.smogon.com/forums/posts/6774654/">roomauth guide</a>': 'More detailed help can be found in the <a href="https://www.smogon.com/forums/posts/6774654/">roomauth guide</a>',
 
 		"Tournament Help:": "房賽指令",
 		"- /tour create <em>format</em>, elimination: create a new single elimination tournament in the current room.": "- /tour create <em>分級</em>, elimination: 在房裡開單淘汰賽（報名）。",
@@ -94,12 +94,12 @@ export const translations: Translations = {
 		"- /tour start: start the tournament in the current room": "- /tour start: 報名完后開始比賽",
 		"- /tour banlist [pokemon], [talent], [...]: ban moves, abilities, Pokémon or items from being used in a tournament (it must be created first)": "- /tour banlist [寶可夢], [特性], [...]: 在比賽裡禁止某些技能，特性，寶可夢或物品（開比賽前設定）",
 
-		"More detailed help can be found in the <a href=\"https://www.smogon.com/forums/posts/6777489/\">tournaments guide</a>": "需要更多幫助可以閱讀 <a href=\"https://www.smogon.com/forums/posts/6777489/\">比賽指導</a>",
+		'More detailed help can be found in the <a href="https://www.smogon.com/forums/posts/6777489/">tournaments guide</a>': 'More detailed help can be found in the <a href="https://www.smogon.com/forums/posts/6777489/">tournaments guide</a>',
 
 		"Your status cannot be updated while you are locked or semilocked.": "鎖定或半鎖定時無法更新您的狀態.",
 		"Your status is too long; it must be under ${maxLength} characters.": "您的狀態太長了;它必須低於${maxLength}個字符.",
 		"Your status contains a banned word.": "您的狀態裡包含禁止使用的詞.",
-		"Your status has been set to: ${target}.": "您的狀態已設置為: ${target}.", "You are now marked as busy.": "您現在被標記為忙碌.",
+		'Your status has been set to: ${target}.": "您的狀態已設置為: ${target}.", "You are now marked as busy.': 'Your status has been set to: ${target}.": "您的狀態已設置為: ${target}.", "You are now marked as busy.',
 		"You are now marked as away. Send a message or use /back to indicate you are back.": "您現在被標記為離開。發送消息或使用/back回到原來的狀態.",
 		"You are already marked as back.": "您已回到原來的狀態.",
 		"You are no longer marked as busy.": "您已停止標記為忙碌.",
@@ -120,11 +120,11 @@ export const translations: Translations = {
 
 		"You are ${lockType} and can only private message members of the global moderation team. ${lockExpiration}": "",
 		"Get help with this": "",
-		"The user \"${targetUser.name}\" is locked and cannot be PMed.": "",
+		'The user "${targetUser.name}" is locked and cannot be PMed.': 'The user "${targetUser.name}" is locked and cannot be PMed.',
 		"On this server, you must be of rank ${groupName} or higher to PM users.": "",
 		"This user is blocking private messages right now.": "",
 		"This ${Config.groups[targetUser.group].name} is too busy to answer private messages right now. Please contact a different staff member.": "",
-		"If you need help, try opening a <a href=\"view-help-request\" class=\"button\">help ticket</a>": "",
+		'If you need help, try opening a <a href="view-help-request" class="button">help ticket</a>': 'If you need help, try opening a <a href="view-help-request" class="button">help ticket</a>',
 		"You are blocking private messages right now.": "",
 
 		"Your message contained banned words in this room.": "發言內容包含了房間內禁止詞匯",

@@ -86,7 +86,7 @@ export const translations: Translations = {
 		"- !showimage <em>[url], [width], [height]</em>: show an image to the room": "- !showimage <em>[url], [largeur], [hauteur]</em> : Affiche une image dans la room",
 		"- /roomsettings: change a variety of room settings, including modchat, capsfilter, etc": "- /roomsettings : Permet de changer plusieurs param&egrave;tres de la room y compris le modchat, le filtre à majuscules, etc",
 
-		"More detailed help can be found in the <a href=\"https://www.smogon.com/forums/posts/6774654/\">roomauth guide</a>": "Plus de d&eacute;tails peuvent &ecirc;tre trouv&eacute;s dans le <a href=\"https://www.smogon.com/forums/posts/6774654/\">guide de roomauth</a>",
+		'More detailed help can be found in the <a href="https://www.smogon.com/forums/posts/6774654/">roomauth guide</a>': 'More detailed help can be found in the <a href="https://www.smogon.com/forums/posts/6774654/">roomauth guide</a>',
 
 		"Tournament Help:": "Aide pour les tournois",
 		"- /tour create <em>format</em>, elimination: create a new single elimination tournament in the current room.": "- /tour create <em>format</em>, elimination : cr&eacute;e un nouveau tournoi simple en &eacute;limination directe dans la room actuelle",
@@ -95,7 +95,7 @@ export const translations: Translations = {
 		"- /tour start: start the tournament in the current room": "- /tour start : D&eacute;marre le tournoi dans la room actuelle",
 		"- /tour banlist [pokemon], [talent], [...]: ban moves, abilities, Pokémon or items from being used in a tournament (it must be created first)": "- /tour banlist [pokemon], [talent], [...] : Bannit des attaques, talents, Pok&eacute;mon ou objets d'un tournoi (cette liste doit &ecirc;tre cr&eacute;&eacute;e au pr&eacute;alable)",
 
-		"More detailed help can be found in the <a href=\"https://www.smogon.com/forums/posts/6777489/\">tournaments guide</a>": "Plus de d&eacute;tails peuvent &ecirc;tre trouv&eacute;s dans le <a href=\"https://www.smogon.com/forums/posts/6777489/\">guide des tournois</a>",
+		'More detailed help can be found in the <a href="https://www.smogon.com/forums/posts/6777489/">tournaments guide</a>': 'More detailed help can be found in the <a href="https://www.smogon.com/forums/posts/6777489/">tournaments guide</a>',
 
 		"Your status cannot be updated while you are locked or semilocked.": "Ton statut ne peut être mis à jour quand tu es lock ou semi-lock.",
 		"Your status is too long; it must be under ${maxLength} characters.": "Ton statut est trop long ; il doit être en dessous de ${maxLength} caractères.",
@@ -122,11 +122,11 @@ export const translations: Translations = {
 
 		"You are ${lockType} and can only private message members of the global moderation team. ${lockExpiration}": "",
 		"Get help with this": "",
-		"The user \"${targetUser.name}\" is locked and cannot be PMed.": "",
+		'The user "${targetUser.name}" is locked and cannot be PMed.': 'The user "${targetUser.name}" is locked and cannot be PMed.',
 		"On this server, you must be of rank ${groupName} or higher to PM users.": "",
 		"This user is blocking private messages right now.": "",
 		"This ${Config.groups[targetUser.group].name} is too busy to answer private messages right now. Please contact a different staff member.": "",
-		"If you need help, try opening a <a href=\"view-help-request\" class=\"button\">help ticket</a>": "",
+		'If you need help, try opening a <a href="view-help-request" class="button">help ticket</a>': 'If you need help, try opening a <a href="view-help-request" class="button">help ticket</a>',
 		"You are blocking private messages right now.": "",
 
 		"Your message contained banned words in this room.": "Ton message contient des mots bannis dans cette room.",

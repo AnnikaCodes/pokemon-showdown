@@ -86,7 +86,7 @@ export const translations: Translations = {
 		"- !showimage <em>[url], [width], [height]</em>: show an image to the room": "- !showimage <em>[url], [width], [height]</em>: room में एक चित्र प्रदर्शित करे",
 		"- /roomsettings: change a variety of room settings, including modchat, capsfilter, etc": "- /roomsettings: room के विविध सेटिंग बदले, जैसे की  modchat, capsfilter आदि",
 
-		"More detailed help can be found in the <a href=\"https://www.smogon.com/forums/posts/6774654/\">roomauth guide</a>": "और ज्यादा विस्तृत सहायता <a href=\"https://www.smogon.com/forums/posts/6774654/\">roomauth guide</a> में मिल सकती है",
+		'More detailed help can be found in the <a href="https://www.smogon.com/forums/posts/6774654/">roomauth guide</a>': 'More detailed help can be found in the <a href="https://www.smogon.com/forums/posts/6774654/">roomauth guide</a>',
 
 		"Tournament Help:": "Tournament से जुड़ी सहायता:",
 		"- /tour create <em>format</em>, elimination: create a new single elimination tournament in the current room.": "- /tour create <em>प्रारूप</em>, elimination: room में एक नया सिंगल एलिमिनेशन टूर बनाये.",
@@ -95,12 +95,12 @@ export const translations: Translations = {
 		"- /tour start: start the tournament in the current room": "- /tour start: room में टूर शुरू करे",
 		"- /tour banlist [pokemon], [talent], [...]: ban moves, abilities, Pokémon or items from being used in a tournament (it must be created first)": "- /tour banlist [pokemon], [talent], [...]: टूर के लिए हमले, ability, Pokémon, या सामान प्रतिबंधित करे (टूर पहले बना होना चाहिए)",
 
-		"More detailed help can be found in the <a href=\"https://www.smogon.com/forums/posts/6777489/\">tournaments guide</a>": "और ज्यादा विस्तृत सहायता <a href=\"https://www.smogon.com/forums/posts/6777489/\">tournaments guide</a> में मिल सकती है",
+		'More detailed help can be found in the <a href="https://www.smogon.com/forums/posts/6777489/">tournaments guide</a>': 'More detailed help can be found in the <a href="https://www.smogon.com/forums/posts/6777489/">tournaments guide</a>',
 
 		"Your status cannot be updated while you are locked or semilocked.": "जब आप lock या semilock हों तब आप status नहीं बदल सकते.",
 		"Your status is too long; it must be under ${maxLength} characters.": "आपका status बहुत बड़ा है; ये अधिकतम ${maxLength} अक्षर का हो सकता है.",
 		"Your status contains a banned word.": "आपके status में एक प्रतिबंधित शब्द है.",
-		"Your status has been set to: ${target}.": "आपका status अब ये है : ${target}.", "You are now marked as busy.": "आपको अब busy (व्यस्त) मार्क कर दिया गया है.",
+		'Your status has been set to: ${target}.": "आपका status अब ये है : ${target}.", "You are now marked as busy.': 'Your status has been set to: ${target}.": "आपका status अब ये है : ${target}.", "You are now marked as busy.',
 		"You are now marked as away. Send a message or use /back to indicate you are back.": "आपको away (दूर) मार्क कर दिया गया है. अपनी वापसी दर्शाने के लिए एक सन्देश भेजें या /back का उपयोग करें.",
 		"You are already marked as back.": "आप पहले से ही (back) मुक्त चिह्नित हैं.",
 		"You are no longer marked as busy.": "अब आप (busy) व्यस्त चिन्हित नहीं हैं.",
@@ -121,11 +121,11 @@ export const translations: Translations = {
 
 		"You are ${lockType} and can only private message members of the global moderation team. ${lockExpiration}": "",
 		"Get help with this": "",
-		"The user \"${targetUser.name}\" is locked and cannot be PMed.": "",
+		'The user "${targetUser.name}" is locked and cannot be PMed.': 'The user "${targetUser.name}" is locked and cannot be PMed.',
 		"On this server, you must be of rank ${groupName} or higher to PM users.": "",
 		"This user is blocking private messages right now.": "",
 		"This ${Config.groups[targetUser.group].name} is too busy to answer private messages right now. Please contact a different staff member.": "",
-		"If you need help, try opening a <a href=\"view-help-request\" class=\"button\">help ticket</a>": "",
+		'If you need help, try opening a <a href="view-help-request" class="button">help ticket</a>': 'If you need help, try opening a <a href="view-help-request" class="button">help ticket</a>',
 		"You are blocking private messages right now.": "",
 
 		"Your message contained banned words in this room.": "आपके सन्देश में इस room का एक प्रतिबंधित शब्द है.",

@@ -85,7 +85,7 @@ export const translations: Translations = {
 		"- !showimage <em>, [width], [height]</em>: show an image to the room": "- !showimage <em>[url], [width], [height]</em>: チャット部屋に画像を表示します。",
 		"- /roomsettings: change a variety of room settings, including modchat, capsfilter, etc": "- /roomsettings: チャット部屋の設定が表示されます。modchat, capsfilterなど様々な設定を行えます。",
 
-		"More detailed help can be found in the <a href=\"https://www.smogon.com/forums/posts/6774654/\">roomauth guide</a>": "もっと詳しく知りたい場合、<a href=\"https://www.smogon.com/forums/posts/6774654/\">スタッフガイド（英語）</a>をご参照ください。",
+		'More detailed help can be found in the <a href="https://www.smogon.com/forums/posts/6774654/">roomauth guide</a>': 'More detailed help can be found in the <a href="https://www.smogon.com/forums/posts/6774654/">roomauth guide</a>',
 
 		"Tournament Help:": "大会ヘルプ:",
 		"- /tour create <em>format</em>, elimination: create a new single elimination tournament in the current room.": "- /tour create <em>対戦ルール</em>, elimination: チャット部屋にトーナメント方式の大会を開催します。",
@@ -94,12 +94,12 @@ export const translations: Translations = {
 		"- /tour start: start the tournament in the current room": "- /tour start: 大会を開始します。",
 		"- /tour banlist [pokemon], [talent], [...]: ban moves, abilities, Pokémon or items from being used in a tournament (it must be created first)": "- /tour banlist [ポケモン], [特性], [...]: 開催中の大会に指定するポケモンや特性などを使用禁止にします。",
 
-		"More detailed help can be found in the <a href=\"https://www.smogon.com/forums/posts/6777489/\">tournaments guide</a>": "もっと詳しく知りたい場合、<a href=\"https://www.smogon.com/forums/posts/6777489/\">大会ガイド（英語）</a>をご参照ください。",
+		'More detailed help can be found in the <a href="https://www.smogon.com/forums/posts/6777489/">tournaments guide</a>': 'More detailed help can be found in the <a href="https://www.smogon.com/forums/posts/6777489/">tournaments guide</a>',
 
 		"Your status cannot be updated while you are locked or semilocked.": "ロック・セミロック状態のため、ステータスを変更することはできません。",
 		"Your status is too long; it must be under ${maxLength} characters.": "ステータスが長すぎます。 ${maxLength} 文字以内のステータスを設定してください。",
 		"Your status contains a banned word.": "ステータスに禁止ワードが入っています。",
-		"Your status has been set to: ${target}.": "新しいステータスが設定されました: ${target}.", "You are now marked as busy.": "ステータスが「取り込み中」になりました。",
+		'Your status has been set to: ${target}.": "新しいステータスが設定されました: ${target}.", "You are now marked as busy.': 'Your status has been set to: ${target}.": "新しいステータスが設定されました: ${target}.", "You are now marked as busy.',
 		"You are now marked as away. Send a message or use /back to indicate you are back.": "ステータスが「離席中」になりました。メッセージを送信するか、/backを入力すると、ステータスが元に戻ります。",
 		"You are already marked as back.": "現在「取り込み中」ではありません。",
 		"You are no longer marked as busy.": "「取り込み中」状態が解除されました。",
@@ -120,11 +120,11 @@ export const translations: Translations = {
 
 		"You are ${lockType} and can only private message members of the global moderation team. ${lockExpiration}": "",
 		"Get help with this": "",
-		"The user \"${targetUser.name}\" is locked and cannot be PMed.": "",
+		'The user "${targetUser.name}" is locked and cannot be PMed.': 'The user "${targetUser.name}" is locked and cannot be PMed.',
 		"On this server, you must be of rank ${groupName} or higher to PM users.": "",
 		"This user is blocking private messages right now.": "",
 		"This ${Config.groups[targetUser.group].name} is too busy to answer private messages right now. Please contact a different staff member.": "",
-		"If you need help, try opening a <a href=\"view-help-request\" class=\"button\">help ticket</a>": "",
+		'If you need help, try opening a <a href="view-help-request" class="button">help ticket</a>': 'If you need help, try opening a <a href="view-help-request" class="button">help ticket</a>',
 		"You are blocking private messages right now.": "",
 
 		"Your message contained banned words in this room.": "メッセージにこの部屋の禁止ワードが入っています。",

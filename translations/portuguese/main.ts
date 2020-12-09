@@ -86,7 +86,7 @@ export const translations: Translations = {
 		"- !showimage <em>[url], [width], [height]</em>: show an image to the room": "- !showimage [url], [largura], [altura]: mostra uma imagem para a sala",
 		"- /roomsettings: change a variety of room settings, including modchat, capsfilter, etc": "- /roomsettings: permite modificar uma variedade de configura&ccedil;&otilde;es da sala, incluindo o modchat, filtro de caps lock, etc",
 
-		"More detailed help can be found in the <a href=\"https://www.smogon.com/forums/posts/6774654/\">roomauth guide</a>": "Informa&ccedil;&otilde;es mais detalhadas podem ser encontradas no <a href=\"https://www.smogon.com/forums/posts/6774654/\">guia para roomauth</a>",
+		'More detailed help can be found in the <a href="https://www.smogon.com/forums/posts/6774654/">roomauth guide</a>': 'More detailed help can be found in the <a href="https://www.smogon.com/forums/posts/6774654/">roomauth guide</a>',
 
 		"Tournament Help:": "Ajuda com Torneios:",
 		"- /tour create <em>format</em>, elimination: create a new single elimination tournament in the current room.": "- /tour create </em>formato</em>, elimination - cria um novo torneio em formato de elimina&ccedil;&atilde;o &uacute;nica na sala",
@@ -95,7 +95,7 @@ export const translations: Translations = {
 		"- /tour start: start the tournament in the current room": "- /tour start: inicia o torneio na sala",
 		"- /tour banlist [pokemon], [talent], [...]: ban moves, abilities, Pok&eacute;mon or items from being used in a tournament (it must be created first)": "- /tour banlist: [pokemon], [talent], [...]: Bane moves, abilities, Pok&eacute;mon ou itens de um torneio (o qual deve primeiro ser criado) ",
 
-		"More detailed help can be found in the <a href=\"https://www.smogon.com/forums/posts/6777489/\">tournaments guide</a>": "Informações mais detalhadas podem ser encontradas no <a href=\"https://www.smogon.com/forums/posts/6777489/\">guia de torneios</a>",
+		'More detailed help can be found in the <a href="https://www.smogon.com/forums/posts/6777489/">tournaments guide</a>': 'More detailed help can be found in the <a href="https://www.smogon.com/forums/posts/6777489/">tournaments guide</a>',
 
 		"Your status cannot be updated while you are locked or semilocked.": "Seu status não pode ser atualizado enquanto você estiver locked ou semilocked.",
 		"Your status is too long; it must be under ${maxLength} characters.": "Seu status é muito longo; ele deve ter menos de ${maxLength} caracteres.",
@@ -123,11 +123,11 @@ export const translations: Translations = {
 
 		"You are ${lockType} and can only private message members of the global moderation team. ${lockExpiration}": "Você está ${lockType} e só pode enviar mensagens privadas para a equipe de moderação global. ${lockExpiration}",
 		"Get help with this": "Peça ajuda com isso",
-		"The user \"${targetUser.name}\" is locked and cannot be PMed.": "O usuário \"${targetUser.name}\" está locked e não pode receber mensagens privadas.",
+		'The user "${targetUser.name}" is locked and cannot be PMed.': 'The user "${targetUser.name}" is locked and cannot be PMed.',
 		"On this server, you must be of rank ${groupName} or higher to PM users.": "Neste servidor, você precisa ser de cargo ${groupName} ou maior para enviar mensagens privadas.",
 		"This user is blocking private messages right now.": "Este usuário está bloqueando mensagens privadas no momento.",
 		"This ${Config.groups[targetUser.group].name} is too busy to answer private messages right now. Please contact a different staff member.": "Este ${Config.groups[targetUser.group].name} está muito ocupado para responder mensagens privadas no momento. Por favor, contate outro membro da staff.",
-		"If you need help, try opening a <a href=\"view-help-request\" class=\"button\">help ticket</a>": "Se você precisa de ajuda, tente abrir um <a href=\"view-help-request\" class=\"button\">pedido de ajuda</a>",
+		'If you need help, try opening a <a href="view-help-request" class="button">help ticket</a>': 'If you need help, try opening a <a href="view-help-request" class="button">help ticket</a>',
 		"You are blocking private messages right now.": "Você está bloquando mensagens privadas no momento.",
 
 		"Your message contained banned words in this room.": "Sua mensagem continha palavras banidas nesta sala.",

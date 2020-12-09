@@ -85,7 +85,7 @@ export const translations: Translations = {
 		"- !showimage <em>[url], [width], [height]</em>: show an image to the room": "- !showimage <em>[url], [breedte], [hoogte]</em>: Laat een afbeelding aan de room zien.",
 		"- /roomsettings: change a variety of room settings, including modchat, capsfilter, etc": "- /roomsettings: Toont een menu waarin het mogelijk is allerlei chatinstellingen te wijzigen, waaronder modchat, capsfilter, enzovoort.",
 
-		"More detailed help can be found in the <a href=\"https://www.smogon.com/forums/posts/6774654/\">roomauth guide</a>": "Meer details zijn te vinden in de <a href=\"https://www.smogon.com/forums/posts/6774654/\">roomauthgids</a>",
+		'More detailed help can be found in the <a href="https://www.smogon.com/forums/posts/6774654/">roomauth guide</a>': 'More detailed help can be found in the <a href="https://www.smogon.com/forums/posts/6774654/">roomauth guide</a>',
 
 		"Tournament Help:": "Toernooihulp",
 		"- /tour create <em>format</em>, elimination: create a new single elimination tournament in the current room.": "- /tour create <em>format</em>, elimination: Maakt een nieuw single-eliminationtoernooi aan in de room.",
@@ -94,7 +94,7 @@ export const translations: Translations = {
 		"- /tour start: start the tournament in the current room": "- /tour start: Start het huidige toernooi in de room.",
 		"- /tour banlist [pokemon], [talent], [...]: ban moves, abilities, Pokémon or items from being used in a tournament (it must be created first)": "- /tour banlist [pokemon], [talent], [...]: Verbiedt aanvallen, abilities, Pok&eacute;mon of items in een toernooi (het toernooi moet wel eerst aangemaakt worden).",
 
-		"More detailed help can be found in the <a href=\"https://www.smogon.com/forums/posts/6777489/\">tournaments guide</a>": "Meer details zijn te vinden in de <a href=\"https://www.smogon.com/forums/posts/6777489/\">toernooigids</a>",
+		'More detailed help can be found in the <a href="https://www.smogon.com/forums/posts/6777489/">tournaments guide</a>': 'More detailed help can be found in the <a href="https://www.smogon.com/forums/posts/6777489/">tournaments guide</a>',
 
 		"Your status cannot be updated while you are locked or semilocked.": "Je kunt je status niet veranderen als je gelockt of gesemilockt bent.",
 		"Your status is too long; it must be under ${maxLength} characters.": "Je status is te lang; hij kan maximaal ${maxLength} karakters bevatten.",
@@ -121,11 +121,11 @@ export const translations: Translations = {
 
 		"You are ${lockType} and can only private message members of the global moderation team. ${lockExpiration}": "Je bent ${lockType} en kunt alleen privéberichten sturen aan globale stafleden.",
 		"Get help with this": "Hulp",
-		"The user \"${targetUser.name}\" is locked and cannot be PMed.": "De gebruiker \"${targetUser.name}\" is gelockt en kan geen privéberichten ontvangen.",
+		'The user "${targetUser.name}" is locked and cannot be PMed.': 'The user "${targetUser.name}" is locked and cannot be PMed.',
 		"On this server, you must be of rank ${groupName} or higher to PM users.": "Op deze server moet je minstens rang ${groupName} zijn om privéberichten te versturen.",
 		"This user is blocking private messages right now.": "Deze gebruiker blokkeert momenteel privéberichten.",
 		"This ${Config.groups[targetUser.group].name} is too busy to answer private messages right now. Please contact a different staff member.": "Deze ${Config.groups[targetUser.group].name} is momenteel te druk om privéberichten te beantwoorden. Neem contact op met een ander staflid.",
-		"If you need help, try opening a <a href=\"view-help-request\" class=\"button\">help ticket</a>": "Als je hulp nodig hebt, maak dan een <a href=\"view-help-request\" class=\"button\">hulpticket</a> aan.",
+		'If you need help, try opening a <a href="view-help-request" class="button">help ticket</a>': 'If you need help, try opening a <a href="view-help-request" class="button">help ticket</a>',
 		"You are blocking private messages right now.": "Je blokkeert momenteel privéberichten.",
 
 		"Your message contained banned words in this room.": "Je bericht bevat woorden die in deze room verboden zijn.",

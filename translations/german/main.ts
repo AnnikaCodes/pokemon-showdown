@@ -87,7 +87,7 @@ export const translations: Translations = {
 		"- !showimage <em>, [width], [height]</em>: show an image to the room": "- !showimage <em>[url], [Breite], [Höhe]</em>: Zeigt ein Bild im Raum",
 		"- /roomsettings: change a variety of room settings, including modchat, capsfilter, etc": "- /roomsettings: Verändert eine Reihe von Raumeinstellungen, wie etwa den moderierten Chat, Caps-Filter, usw",
 
-		"More detailed help can be found in the <a href=\"https://www.smogon.com/forums/posts/6774654/\">roomauth guide</a>": "Eine detailliertere Hilfestellung findet sich im <a href=\"https://www.smogon.com/forums/posts/6774654/\">Leitfaden für Raum-Auths</a>",
+		'More detailed help can be found in the <a href="https://www.smogon.com/forums/posts/6774654/">roomauth guide</a>': 'More detailed help can be found in the <a href="https://www.smogon.com/forums/posts/6774654/">roomauth guide</a>',
 
 		"Tournament Help:": "Turnier-Hilfe:",
 		"- /tour create <em>format</em>, elimination: create a new single elimination tournament in the current room.": "- /tour create <em>Format</em>, elimination: Erstellt ein neues Turnier im KO-Format im aktuellen Raum.",
@@ -95,12 +95,12 @@ export const translations: Translations = {
 		"- /tour end: forcibly end the tournament in the current room": "- /tour end: Beendet das aktuelle Turnier im Raum.",
 		"- /tour start: start the tournament in the current room": "- /tour start: Startet das aktuelle Turnier im Raum.",
 		"- /tour banlist [pokemon], [talent], [...]: ban moves, abilities, Pokémon or items from being used in a tournament (it must be created first)": "- /tour banlist [Pokemon], [Fähigkeit], [...] : Verbietet die Benutzung von Fähigkeiten, Pokemon oder Items in einem Turnier (dieses muss zuvor erstellt worden sein)",
-		"More detailed help can be found in the <a href=\"https://www.smogon.com/forums/posts/6777489/\">tournaments guide</a>": "Eine detailliertere Hilfestellung findet sich im <a href=\"https://www.smogon.com/forums/posts/6777489/\">Leitfaden für Turniere</a>",
+		'More detailed help can be found in the <a href="https://www.smogon.com/forums/posts/6777489/">tournaments guide</a>': 'More detailed help can be found in the <a href="https://www.smogon.com/forums/posts/6777489/">tournaments guide</a>',
 
-		"Your status cannot be updated while you are locked or semilocked.": "Dein Status kann nicht geändert werden, solange du \"locked\" (gesperrt) oder semilocked (semi-gesperrt) bist.",
+		'Your status cannot be updated while you are locked or semilocked.': 'Dein Status kann nicht geändert werden, solange du "locked" (gesperrt) oder semilocked (semi-gesperrt) bist.',
 		"Your status is too long; it must be under ${maxLength} characters.": "Dein Status ist zu lang; er muss kürzer als ${maxLength} Zeichen sein.",
 		"Your status contains a banned word.": "Dein Status beinhaltet ein verbotenes Wort.",
-		"Your status has been set to: ${target}.": "Dein Status wurde zu ${target} geändert.", "You are now marked as busy.": "Du bist jetzt als beschäftigt markiert.",
+		'Your status has been set to: ${target}.": "Dein Status wurde zu ${target} geändert.", "You are now marked as busy.': 'Your status has been set to: ${target}.": "Dein Status wurde zu ${target} geändert.", "You are now marked as busy.',
 		"You are now marked as away. Send a message or use /back to indicate you are back.": "Du bist jetzt als abwesend markiert. Versende eine Nachricht oder nutze /back um zu signalisieren, dass du zurück bist.",
 		"You are already marked as back.": "Du bist bereits als anwesend markiert.",
 		"You are no longer marked as busy.": "Du bist nicht länger als beschäftigt markiert.",
@@ -121,11 +121,11 @@ export const translations: Translations = {
 
 		"You are ${lockType} and can only private message members of the global moderation team. ${lockExpiration}": "Du bist ${lockType} und kannst nur noch private Nachrichten an globale Staffmitglieder versenden. ${lockExpiration}",
 		"Get help with this": "Erhalte diesbezüglich Hilfe",
-		"The user \"${targetUser.name}\" is locked and cannot be PMed.": "Der User \"${targetUser.name}\" ist gesperrt und kann nicht privat angeschrieben werden.",
+		'The user "${targetUser.name}" is locked and cannot be PMed.': 'The user "${targetUser.name}" is locked and cannot be PMed.',
 		"On this server, you must be of rank ${groupName} or higher to PM users.": "Auf diesem Server musst du über den Rang ${groupName} oder höher verfügen, um private Nachrichten an User zu versenden.",
 		"This user is blocking private messages right now.": "Dieser User blockiert gerade private Nachrichten.",
 		"This ${Config.groups[targetUser.group].name} is too busy to answer private messages right now. Please contact a different staff member.": "Dieser ${Config.groups[targetUser.group].name} ist gerade zu beschäftigt, um auf private Nachrichten zu antworten. Bitte wende dich an ein anderes Staff-Mitglied.",
-		"If you need help, try opening a <a href=\"view-help-request\" class=\"button\">help ticket</a>": "Falls du Hilfe benötigst, versuche ein <a href=\"view-help-request\" class=\"button\">Help-Ticket</a> zu beantragen.",
+		'If you need help, try opening a <a href="view-help-request" class="button">help ticket</a>': 'If you need help, try opening a <a href="view-help-request" class="button">help ticket</a>',
 		"You are blocking private messages right now.": "Du blockierst gerade private Nachrichten.",
 
 		"Your message contained banned words in this room.": "Deine Nachricht enthielt Wörter, welche in diesem Raum verboten sind.",
