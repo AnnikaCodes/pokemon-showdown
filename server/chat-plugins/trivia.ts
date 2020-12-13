@@ -22,19 +22,6 @@ const SPECIAL_CATEGORIES: {[k: string]: string} = {
 	subcat5: 'Sub-Category 5',
 };
 
-const ALL_CATEGORIES: {[k: string]: string} = {
-	ae: 'Arts and Entertainment',
-	misc: 'Miscellaneous',
-	pokemon: 'Pok\u00E9mon',
-	sg: 'Science and Geography',
-	sh: 'Society and Humanities',
-	subcat: 'Sub-Category 1',
-	subcat2: 'Sub-Category 2',
-	subcat3: 'Sub-Category 3',
-	subcat4: 'Sub-Category 4',
-	subcat5: 'Sub-Category 5',
-};
-
 /**
  * Aliases for keys in the ALL_CATEGORIES object.
  */
@@ -67,12 +54,6 @@ const LENGTHS: {[k: string]: {cap: number | false, prizes: number[]}} = {
 		prizes: [5, 3, 1],
 	},
 };
-
-Object.setPrototypeOf(MAIN_CATEGORIES, null);
-Object.setPrototypeOf(SPECIAL_CATEGORIES, null);
-Object.setPrototypeOf(ALL_CATEGORIES, null);
-Object.setPrototypeOf(MODES, null);
-Object.setPrototypeOf(LENGTHS, null);
 
 const SIGNUP_PHASE = 'signups';
 const QUESTION_PHASE = 'question';
@@ -122,6 +103,7 @@ interface TriviaData {
 	altLeaderboard?: TriviaLeaderboard;
 	ladder?: TriviaLadder;
 	history?: TriviaGame[];
+	customCategories?: {[k: string]: string};
 }
 
 interface TopPlayer {
@@ -145,9 +127,30 @@ if (typeof triviaData.leaderboard !== 'object') triviaData.leaderboard = {};
 if (typeof triviaData.altLeaderboard !== 'object') triviaData.altLeaderboard = {};
 if (!Array.isArray(triviaData.questions)) triviaData.questions = [];
 if (!Array.isArray(triviaData.submissions)) triviaData.submissions = [];
+if (typeof triviaData.customCategories !== 'object') triviaData.customCategories = {};
 if (triviaData.questions.some(q => !('type' in q))) {
 	triviaData.questions = triviaData.questions.map(q => Object.assign(Object.create(null), q, {type: 'trivia'}));
 }
+
+export const ALL_CATEGORIES: {[k: string]: string} = {
+	ae: 'Arts and Entertainment',
+	misc: 'Miscellaneous',
+	pokemon: 'Pok\u00E9mon',
+	sg: 'Science and Geography',
+	sh: 'Society and Humanities',
+	subcat: 'Sub-Category 1',
+	subcat2: 'Sub-Category 2',
+	subcat3: 'Sub-Category 3',
+	subcat4: 'Sub-Category 4',
+	subcat5: 'Sub-Category 5',
+	...triviaData.customCategories,
+};
+
+Object.setPrototypeOf(MAIN_CATEGORIES, null);
+Object.setPrototypeOf(SPECIAL_CATEGORIES, null);
+Object.setPrototypeOf(ALL_CATEGORIES, null);
+Object.setPrototypeOf(MODES, null);
+Object.setPrototypeOf(LENGTHS, null);
 
 /** from:to Map */
 export const pendingAltMerges = new Map<ID, ID>();
@@ -1990,18 +1993,23 @@ const triviaCommands: ChatCommands = {
 			if (!this.runBroadcast()) return false;
 
 			const questions = triviaData.questions!;
+
 			const questionsLen = questions.length;
+			const mainQuestionsLen = questions.filter(q => q.category in MAIN_CATEGORIES).length;
 			if (!questionsLen) return this.sendReplyBox(this.tr`No questions have been submitted yet.`);
 
 			let lastCategoryIdx = 0;
 			buffer += `<tr><th>Category</th><th>${this.tr`Question Count`}</th></tr>`;
 			for (const category in ALL_CATEGORIES) {
 				if (category === 'random') continue;
-				const tally = findEndOfCategory(category, false) - lastCategoryIdx;
+				const end = findEndOfCategory(category, false);
+				const tally = end ? end - lastCategoryIdx : 0;
 				lastCategoryIdx += tally;
-				buffer += `<tr><td>${ALL_CATEGORIES[category]}</td><td>${tally} (${((tally * 100) / questionsLen).toFixed(2)}%)</td></tr>`;
+				buffer += `<tr><td>${ALL_CATEGORIES[category]}</td><td>${tally}`;
+				if (category in MAIN_CATEGORIES) buffer += ` (${((tally * 100) / mainQuestionsLen).toFixed(2)}%)`;
+				buffer += `</td></tr>`;
 			}
-			buffer += `<tr><td><strong>${this.tr`Total`}</strong></td><td><strong>${questionsLen}</strong></td></table></div>`;
+			buffer += `<tr><td><strong>${this.tr`Total (including subcats and custom categories)`}</strong></td><td><strong>${questionsLen}</strong></td></table></div>`;
 
 			return this.sendReply(buffer);
 		}
@@ -2089,6 +2097,43 @@ const triviaCommands: ChatCommands = {
 	searchhelp: [
 		`/trivia search [type], [query] - Searches for questions based on their type and their query. This command is case-insensitive. Valid types: submissions, subs, questions, qs. Requires: + % @ * &`,
 		`/trivia casesensitivesearch [type], [query] - Like /trivia search, but is case sensitive (capital letters matter). Requires: + % @ * &`,
+	],
+
+	deletecategory: 'addcategory',
+	addcategory(target, room, user, connection, cmd) {
+		room = this.requireRoom('questionworkshop' as RoomID);
+		this.checkCan('declare', null, room);
+
+		const isDeletion = cmd.includes('delete');
+
+		let [id, name] = this.splitOne(target);
+		id = toID(id);
+		if (!id || !name) return this.parse(`/help addcategory`);
+
+		if (isDeletion) {
+			if (!(id in triviaData.customCategories!)) {
+				throw new Chat.ErrorMessage(`The category ${id} does not exist or is not a custom category.`);
+			}
+			delete triviaData.customCategories![id];
+			delete ALL_CATEGORIES[id];
+
+			triviaData.questions = triviaData.questions!.filter(q => q.category !== id);
+		} else {
+			if (id in ALL_CATEGORIES) {
+				throw new Chat.ErrorMessage(`The category ${id} already exists.`);
+			}
+
+			triviaData.customCategories![id] = name;
+			ALL_CATEGORIES[id] = name;
+		}
+
+		writeTriviaData();
+		this.addModAction(`${user.name} ${isDeletion ? `deleted` : `added`} a category '${id}' (${name}).`);
+		this.modlog(`TRIVIA ${isDeletion ? `ADD` : `DELETE`}CATEGORY`, null, `${id} (${name})`);
+	},
+	addcategoryhelp: [
+		`/trivia addcategory [id], [name] - Adds a new question category. Requires: # &`,
+		`/trivia deletecategory [id], [name] - Deletes a custom question category. THIS DELETES ALL QUESTIONS IN THAT CATEGORY. Requires: # &`,
 	],
 
 	rank(target, room, user) {

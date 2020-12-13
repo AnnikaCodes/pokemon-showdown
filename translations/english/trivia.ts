@@ -114,7 +114,7 @@ export const translations: Translations = {
 		"from the question database.": "",
 		"No questions have been submitted yet.": "",
 		"Question Count": "",
-		"Total": "",
+		"Total (including subcats and custom categories)": "",
 		"${target}' is not a valid category. View /help trivia for more information.": "",
 		"There are no questions in the ${ALL_CATEGORIES[target]} category.": "",
 		"There are <strong>${list.length}</strong> questions in the ${cat} category.": "",
