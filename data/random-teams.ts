@@ -1980,11 +1980,15 @@ export class RandomTeams {
 		const typeCount: {[k: string]: number} = {};
 		const typeComboCount: {[k: string]: number} = {};
 		const teamDetails: RandomTeamsTypes.TeamDetails = {};
+		let hasCAP = false;
 
 		const pokemonPool = this.getPokemonPool(type, pokemon, isMonotype);
 		while (pokemonPool.length && pokemon.length < 6) {
 			let species = this.dex.getSpecies(this.sampleNoReplace(pokemonPool));
 			if (!species.exists) continue;
+
+			// AFD enforcement of at least 1 CAP pokemon per team
+			if (pokemon.length === 5 && !hasCAP && species.isNonstandard !== 'CAP') continue;
 
 			// Check if the forme has moves for random battle
 			if (this.format.gameType === 'singles') {
@@ -2060,6 +2064,8 @@ export class RandomTeams {
 
 			// Okay, the set passes, add it to our team
 			pokemon.push(set);
+			// AFD enforcement helper
+			if (species.isNonstandard === 'CAP') hasCAP = true;
 
 			if (pokemon.length === 6) {
 				// Set Zoroark's level to be the same as the last Pokemon
@@ -2111,6 +2117,7 @@ export class RandomTeams {
 
 			// For setting Zoroark's level
 			if (set.ability === 'Illusion') teamDetails.illusion = pokemon.length;
+
 		}
 		if (pokemon.length < 6) throw new Error(`Could not build a random team for ${this.format} (seed=${seed})`);
 
